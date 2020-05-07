@@ -37,7 +37,7 @@ type Comment struct {
 }
 
 func main() {
-	db, err := gorm.Open("sqlite3", "test.db")
+	db, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
 		panic("failed to connect database")
 	}

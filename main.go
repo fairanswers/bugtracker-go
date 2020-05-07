@@ -27,13 +27,14 @@ type Issue struct {
 	gorm.Model
 	Title    string
 	Desc     string
-	Comments []Comment
+	Comments []Comment `gorm:"foreignkey:IssueRef"`
 }
 
 type Comment struct {
 	gorm.Model
-	Title string
-	Desc  string
+	Title    string
+	Desc     string
+	IssueRef uint
 }
 
 func main() {
@@ -49,7 +50,16 @@ func main() {
 	// Create
 	user := User{Name: "User1", Email: "user@example.com"}
 	db.Create(&user)
-	fmt.Println(user)
+	// Create Issue
+	issue := Issue{Title: "first issue", Desc: "Dice are rolling"}
+	// Create comments
+	c1 := Comment{Desc: "First Comment", Title: "So far, so good"}
+	//fmt.Printf(" %v", c1)
+	issue.Comments = append(issue.Comments, c1)
+	db.Update(&issue)
+
+	fmt.Printf("Save Version for both = %+v ", issue)
+
 	// // Read
 	// var product Product
 	// var user User
